@@ -792,3 +792,26 @@ body {
     height: 300px;
   }
 }
+
+.app-footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  background: var(--footer-bg);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.app-footer p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-footer p span {
+  font-size: 1.3rem;
+}

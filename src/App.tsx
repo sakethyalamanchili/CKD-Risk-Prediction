@@ -71,8 +71,7 @@ function App() {
           <h1>CKD Risk Prediction</h1>
         </div>
         <p className="subtitle">
-          Early Detection of Chronic Kidney Disease in Patients with Diabetes and Hypertension
-          Using AI in Precision Medicine
+          Early Detection of Chronic Kidney Disease using AI in Precision Medicine.
         </p>
         <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
           {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}

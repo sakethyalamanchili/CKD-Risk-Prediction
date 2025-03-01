@@ -40,78 +40,18 @@ const PredictionForm: React.FC<PredictionFormProps> = ({ onPredict }) => {
     onPredict(formData);
   };
 
-  // Define ranges and normal values for each parameter
+  // Define parameter ranges and information
   const parameterInfo = {
-    serumCreatinine: { 
-      min: 0.1, 
-      max: 15, 
-      normal: "0.7-1.3 mg/dL", 
-      step: 0.1, 
-      info: "Elevated in kidney disease" 
-    },
-    estimatedGFR: {
-      min: 1,
-      max: 150,
-      normal: "90-120 mL/min/1.73m²",
-      step: 1,
-      info: "Lower values indicate reduced kidney function",
-    },
-    hemoglobinLevel: { 
-      min: 5, 
-      max: 20, 
-      normal: "13.5-17.5 g/dL", 
-      step: 0.1, 
-      info: "May be reduced in kidney disease" 
-    },
-    ureaNitrogenLevel: { 
-      min: 5, 
-      max: 150, 
-      normal: "7-20 mg/dL", 
-      step: 1, 
-      info: "Elevated in kidney disease" 
-    },
-    albuminLevel: { 
-      min: 1, 
-      max: 6, 
-      normal: "3.5-5.0 g/dL", 
-      step: 0.1, 
-      info: "May be reduced in kidney disease" 
-    },
-    whiteBloodCellCount: {
-      min: 2,
-      max: 30,
-      normal: "4.5-11.0 ×10³/µL",
-      step: 0.1,
-      info: "May be elevated in infection or inflammation",
-    },
-    bloodGlucoseLevel: { 
-      min: 50, 
-      max: 500, 
-      normal: "70-100 mg/dL", 
-      step: 1, 
-      info: "Elevated in diabetes" 
-    },
-    age: { 
-      min: 18, 
-      max: 100, 
-      normal: "N/A", 
-      step: 1, 
-      info: "Risk increases with age" 
-    },
-    potassiumLevel: { 
-      min: 2.5, 
-      max: 7, 
-      normal: "3.5-5.0 mEq/L", 
-      step: 0.1, 
-      info: "May be abnormal in kidney disease" 
-    },
-    sodiumLevel: { 
-      min: 120, 
-      max: 160, 
-      normal: "135-145 mEq/L", 
-      step: 1, 
-      info: "May be abnormal in kidney disease" 
-    },
+    serumCreatinine: { min: 0.1, max: 15, step: 0.1, info: "Elevated in kidney disease" },
+    estimatedGFR: { min: 1, max: 150, step: 1, info: "Lower values indicate reduced kidney function" },
+    hemoglobinLevel: { min: 5, max: 20, step: 0.1, info: "May be reduced in kidney disease" },
+    ureaNitrogenLevel: { min: 5, max: 150, step: 1, info: "Elevated in kidney disease" },
+    albuminLevel: { min: 1, max: 6, step: 0.1, info: "May be reduced in kidney disease" },
+    whiteBloodCellCount: { min: 2, max: 30, step: 0.1, info: "May be elevated in infection or inflammation" },
+    bloodGlucoseLevel: { min: 50, max: 500, step: 1, info: "Elevated in diabetes" },
+    age: { min: 18, max: 100, step: 1, info: "Risk increases with age" },
+    potassiumLevel: { min: 2.5, max: 7, step: 0.1, info: "May be abnormal in kidney disease" },
+    sodiumLevel: { min: 120, max: 160, step: 1, info: "May be abnormal in kidney disease" },
   };
 
   // Format display names
@@ -128,27 +68,12 @@ const PredictionForm: React.FC<PredictionFormProps> = ({ onPredict }) => {
     sodiumLevel: "Sodium Level (mEq/L)",
   };
 
-  // Check if value is outside normal range
-  const isOutsideNormalRange = (key: string, value: number) => {
-    const info = parameterInfo[key as keyof typeof parameterInfo];
-    if (key === 'age') return false; // Age doesn't have a "normal" range
-    
-    const normalRange = info.normal.split('-');
-    if (normalRange.length !== 2) return false;
-    
-    const min = parseFloat(normalRange[0]);
-    const max = parseFloat(normalRange[1]);
-    
-    return value < min || value > max;
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-grid">
         {Object.entries(formData).map(([key, value]) => {
           const info = parameterInfo[key as keyof typeof parameterInfo];
           const name = displayNames[key as keyof typeof displayNames];
-          const isAbnormal = isOutsideNormalRange(key, value);
 
           return (
             <div key={key} className="form-group">
@@ -175,17 +100,14 @@ const PredictionForm: React.FC<PredictionFormProps> = ({ onPredict }) => {
                     step={info.step}
                     min={info.min}
                     max={info.max}
-                    className={`form-input ${isAbnormal ? 'border-red-400' : ''}`}
+                    className="form-input"
                     required
                   />
-                  <span className="input-range">
-                    ({info.min}-{info.max})
-                  </span>
                 </div>
               </label>
               <div className="info-text">
                 <Info size={12} />
-                <span>Normal range: {info.normal}</span>
+                <span>{info.info}</span>
               </div>
             </div>
           );
